@@ -1,0 +1,38 @@
+diff -u -r a/app/views/issues/_form_custom_fields.rhtml b/app/views/issues/_form_custom_fields.rhtml
+--- a/app/views/issues/_form_custom_fields.rhtml	2014-11-20 00:06:45.000000000 +0800
++++ b/app/views/issues/_form_custom_fields.rhtml	2014-11-20 00:03:31.000000000 +0800
+@@ -11,3 +11,21 @@
+ </div>
+ <div style="clear:both;"> </div>
+ 
++
++<script type="text/javascript">
++
++ // setTimeout is hacked in case of dom is loaded too slow
++ var timeOut = setTimeout(function() {
++    var results = [];
++    var elements = $$('#issue_assigned_to_id');
++    for (var i = 0; i < elements.length; i++) {
++	results.push(new Chosen(elements[i],{
++	    width: "170px", 
++	    no_results_text: " ",
++	    placeholder_text: "请选择",
++	    search_contains: true
++	}));
++    }
++
++}, 1500);
++</script>
+diff -u -r a/app/views/layouts/base.rhtml b/app/views/layouts/base.rhtml
+--- a/app/views/layouts/base.rhtml	2014-11-20 00:06:23.000000000 +0800
++++ b/app/views/layouts/base.rhtml	2014-11-20 00:01:10.000000000 +0800
+@@ -12,6 +12,9 @@
+ <%= javascript_heads %>
+ 
+ 
++<%= stylesheet_link_tag 'chosen.min.css', :plugin=> 'redmine_chosen' %>
++<%= javascript_include_tag 'chosen.proto.min.js', :plugin=> 'redmine_chosen' %>
++
+ <%= heads_for_theme %>
+ <!--[if IE 6]>
+     <style type="text/css">
